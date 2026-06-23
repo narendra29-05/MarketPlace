@@ -1,0 +1,11 @@
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/bin/Debug/net10.0/Findly.Domain.deps.json
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/bin/Debug/net10.0/Findly.Domain.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/bin/Debug/net10.0/Findly.Domain.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.AssemblyInfoInputs.cache
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.AssemblyInfo.cs
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.csproj.CoreCompileInputs.cache
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/refint/Findly.Domain.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/Findly.Domain.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Domain/obj/Debug/net10.0/ref/Findly.Domain.dll

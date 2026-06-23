@@ -1,0 +1,17 @@
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Application.deps.json
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Application.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Application.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Contracts.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Domain.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Domain.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/bin/Debug/net10.0/Findly.Contracts.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.csproj.AssemblyReference.cache
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.AssemblyInfoInputs.cache
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.AssemblyInfo.cs
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.csproj.CoreCompileInputs.cache
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.A.681D1BBF.Up2Date
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/refint/Findly.Application.dll
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/Findly.Application.pdb
+/Users/narendra/Developer/MarketPlace/Svc-Findly/src/Findly.Application/obj/Debug/net10.0/ref/Findly.Application.dll

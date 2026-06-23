@@ -1,0 +1,38 @@
+name: findly
+
+services:
+
+  # ============================================================
+  #  SQL Server
+  # ============================================================
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    container_name: findly-sqlserver
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD:-Findly@123!}
+    networks:
+      - findly
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -Q "SELECT 1" -b -o /dev/null -C
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 15s
+
+
+networks:
+  findly:
+    name: findly-network
+    driver: bridge
+
+
+volumes:
+  sqlserver:
+    driver: local
