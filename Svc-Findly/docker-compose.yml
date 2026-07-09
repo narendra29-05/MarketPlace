@@ -16,7 +16,7 @@ services:
     networks:
       - findly
     ports:
-      - "1433:1433"
+      - "1435:1433"
     volumes:
       - sqlserver:/var/opt/mssql
     healthcheck:

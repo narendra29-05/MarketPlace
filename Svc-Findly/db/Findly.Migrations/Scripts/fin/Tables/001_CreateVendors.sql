@@ -7,6 +7,11 @@
 USE [FindlyDb];
 GO
 
+-- Filtered indexes require these SET options to be ON at creation time.
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
+
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Vendors' AND schema_id = SCHEMA_ID('fin'))
 BEGIN
     CREATE TABLE [fin].[Vendors]
@@ -45,8 +50,11 @@ BEGIN
         [UpdatedBy]         NVARCHAR(100)   NULL,
         [UpdatedAt]         DATETIME2       NOT NULL    DEFAULT GETUTCDATE(),
 
+        -- Soft Delete
+        [IsDeleted]         BIT             NOT NULL    CONSTRAINT [DF_Vendors_IsDeleted] DEFAULT (0),
+        [DeletedAt]         DATETIME2       NULL,
+
         CONSTRAINT [PK_Vendors]              PRIMARY KEY CLUSTERED ([Id]),
-        CONSTRAINT [UQ_Vendors_Email]        UNIQUE                ([Email]),
         CONSTRAINT [CK_Vendors_Status]       CHECK                 ([Status] IN (1, 2, 3)),
         CONSTRAINT [CK_Vendors_IndustryType] CHECK                 ([IndustryType] BETWEEN 1 AND 16)
     );
@@ -59,6 +67,14 @@ BEGIN
 
     CREATE NONCLUSTERED INDEX [IX_Vendors_Country]
         ON [fin].[Vendors] ([Country]);
+
+    CREATE UNIQUE INDEX [UX_Vendors_Email]
+        ON [fin].[Vendors] ([Email])
+        WHERE [IsDeleted] = 0;
+
+    CREATE NONCLUSTERED INDEX [IX_Vendors_IsDeleted]
+        ON [fin].[Vendors] ([IsDeleted])
+        WHERE [IsDeleted] = 0;
 
     PRINT 'Created [fin].[Vendors]';
 END

@@ -3,21 +3,21 @@ using Findly.Domain.Enums;
 
 namespace Findly.Infrastructure.Persistence.Entities;
 
-[Table("Vendors")]
+[Table("fin.Vendors")]
 internal class DbVendor
 {
     [Key]
     public int          Id              { get; set; }
-    public string       FirstName       { get; set; } 
-    public string       LastName        { get; set; } 
-    public string       Email           { get; set; } 
-    public string       Phone           { get; set; } 
-    public string       CompanyName     { get; set; } 
+    public string       FirstName       { get; set; } = null!;
+    public string       LastName        { get; set; } = null!;
+    public string       Email           { get; set; } = null!;
+    public string       Phone           { get; set; } = null!;
+    public string       CompanyName     { get; set; } = null!;
     public int?         CompanySize     { get; set; }
     public Industry?    IndustryType    { get; set; }
     public string?      WebsiteUrl      { get; set; }
     public string?      LogoUrl         { get; set; }
-    public VendorStatus Status          { get; set; }
+    public VendorStatus Status         { get; set; }
     public string?      RejectionReason { get; set; }
     public string?      AddressLine1    { get; set; }
     public string?      AddressLine2    { get; set; }

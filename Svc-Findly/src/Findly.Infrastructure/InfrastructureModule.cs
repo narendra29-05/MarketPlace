@@ -1,4 +1,5 @@
 using Autofac;
+using Findly.Domain.Repositories;
 using Findly.Infrastructure.Persistence;
 
 namespace Findly.Infrastructure;
@@ -9,6 +10,10 @@ public class InfrastructureModule : Module
     {
         builder.RegisterType<DatabaseContext>()
             .AsSelf()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<UnitOfWork>()
+            .As<IUnitOfWork>()
             .InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)

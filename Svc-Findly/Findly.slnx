@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/db/">
+    <Project Path="db/Findly.Migrations/Findly.Migrations.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Findly.Api/Findly.Api.csproj" />
+    <Project Path="src/Findly.Application/Findly.Application.csproj" />
+    <Project Path="src/Findly.Contracts/Findly.Contracts.csproj" />
+    <Project Path="src/Findly.Domain/Findly.Domain.csproj" />
+    <Project Path="src/Findly.Infrastructure/Findly.Infrastructure.csproj" />
+  </Folder>
+  <Project Path="WorkerService1/WorkerService1.csproj" />
+</Solution>
