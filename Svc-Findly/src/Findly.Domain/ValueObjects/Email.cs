@@ -2,7 +2,7 @@ namespace Findly.Domain.ValueObjects;
 
 public class Email
 {
-    public string Value { get; private set; }
+    public string Value { get; private set; } = null!;
 
     protected Email() { }
 

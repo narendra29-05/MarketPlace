@@ -12,3 +12,5 @@ public class ApplicationModule : Module
             .InstancePerLifetimeScope();
     }
 }
+
+

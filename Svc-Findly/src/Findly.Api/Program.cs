@@ -3,12 +3,10 @@ using Asp.Versioning;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Findly.Api;
 using Findly.Api.Filters;
 using Findly.Application;
-using Findly.Contracts.Listing.Requests;
+using Findly.Contracts.Requests;
 using Findly.Infrastructure;
-using Findly.Infrastructure.Persistence.Mappings;
 using FluentValidation;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -19,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(container =>
 {
-    container.RegisterModule<WebModule>();
     container.RegisterModule<ApplicationModule>();
     container.RegisterModule<InfrastructureModule>();
 
@@ -43,6 +40,8 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
         .SingleInstance();
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 builder.Services.AddControllers(options =>
     options.Filters.Add<FluentValidationFilter>());
@@ -59,6 +58,8 @@ builder.Services.AddApiVersioning(options =>
 });
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {

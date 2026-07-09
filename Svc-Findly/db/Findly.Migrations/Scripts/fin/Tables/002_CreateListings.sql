@@ -7,6 +7,11 @@
 USE [FindlyDb];
 GO
 
+-- Filtered indexes require these SET options ON at creation time.
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+GO
+
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Listings' AND schema_id = SCHEMA_ID('fin'))
 BEGIN
     CREATE TABLE [fin].[Listings]
@@ -36,7 +41,6 @@ BEGIN
         -- Ratings
         [AverageRating]         DECIMAL(3,2)    NOT NULL    DEFAULT 0,
         [FeaturesRating]        DECIMAL(3,2)    NOT NULL    DEFAULT 0,
-        [ValueForMoneyRating]   DECIMAL(3,2)    NOT NULL    DEFAULT 0,
         [CustomerSupportRating] DECIMAL(3,2)    NOT NULL    DEFAULT 0,
         [ReviewCount]           INT             NOT NULL    DEFAULT 0,
 
@@ -50,8 +54,11 @@ BEGIN
         [UpdatedBy]             NVARCHAR(100)   NULL,
         [UpdatedAt]             DATETIME2       NOT NULL    DEFAULT GETUTCDATE(),
 
+        -- Soft Delete
+        [IsDeleted]             BIT             NOT NULL    CONSTRAINT [DF_Listings_IsDeleted] DEFAULT (0),
+        [DeletedAt]             DATETIME2       NULL,
+
         CONSTRAINT [PK_Listings]                PRIMARY KEY CLUSTERED ([Id]),
-        CONSTRAINT [UQ_Listings_Slug]           UNIQUE                ([Slug]),
         CONSTRAINT [FK_Listings_Vendors]        FOREIGN KEY           ([VendorId]) REFERENCES [fin].[Vendors] ([Id]),
         CONSTRAINT [CK_Listings_Status]         CHECK                 ([Status] IN (1, 2, 3, 4)),
         CONSTRAINT [CK_Listings_PricingType]    CHECK                 ([PricingType] BETWEEN 1 AND 4),
@@ -67,6 +74,9 @@ BEGIN
 
     CREATE NONCLUSTERED INDEX [IX_Listings_PricingType]
         ON [fin].[Listings] ([PricingType]);
+
+    CREATE UNIQUE INDEX [UX_Listings_Slug] ON [fin].[Listings] ([Slug]) WHERE [IsDeleted] = 0;
+    CREATE INDEX [IX_Listings_IsDeleted] ON [fin].[Listings] ([IsDeleted]) WHERE [IsDeleted] = 0;
 
     PRINT 'Created [fin].[Listings]';
 END
