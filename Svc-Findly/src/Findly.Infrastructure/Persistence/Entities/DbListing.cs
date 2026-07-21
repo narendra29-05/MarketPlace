@@ -3,7 +3,7 @@ using Findly.Domain.Enums;
 
 namespace Findly.Infrastructure.Persistence.Entities;
 
-[Table("Listings")]
+[Table("fin.Listings")]
 internal class DbListing
 {
     [Key]

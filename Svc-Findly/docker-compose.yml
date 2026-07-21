@@ -16,7 +16,8 @@ services:
     networks:
       - findly
     ports:
-      - "1433:1433"
+      # host 14333 → container 1433 (1433 on the host is taken by another local SQL Server)
+      - "14333:1433"
     volumes:
       - sqlserver:/var/opt/mssql
     healthcheck:

@@ -107,8 +107,8 @@ public class Listing : Entity
         string? demoUrl     ,
         int?    foundedYear )
     {
-        if (Status != ListingStatus.Rejected)
-            throw new InvalidOperationException("Listing can only be edited after rejection.");
+        if (Status == ListingStatus.Archived)
+            throw new InvalidOperationException("Archived listings cannot be edited. Restore the listing first.");
 
         Name             = name;
         Slug             = slug;
@@ -121,6 +121,13 @@ public class Listing : Entity
         FoundedYear      = foundedYear;
         UpdatedAt        = DateTime.UtcNow;
         UpdatedBy        = updatedBy;
+
+        // Edits to rejected or published listings go back through moderation.
+        if (Status is ListingStatus.Rejected or ListingStatus.Published)
+        {
+            Status          = ListingStatus.Pending;
+            RejectionReason = null;
+        }
     }
 
     public void UpdatePricing(

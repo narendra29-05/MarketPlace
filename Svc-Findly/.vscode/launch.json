@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Findly.Api",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/Findly.Api/bin/Debug/net10.0/Findly.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Findly.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Debug Findly.Migrations",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/db/Findly.Migrations/bin/Debug/net10.0/Findly.Migrations.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/db/Findly.Migrations",
+            "stopAtEntry": false,
+            "console": "integratedTerminal",
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Attach to Process",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

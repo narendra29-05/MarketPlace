@@ -1,9 +1,11 @@
+using Findly.Contracts.Category.Responses;
 using Findly.Domain.Enums;
 
 namespace Findly.Contracts.Listing.Responses;
 
 public class ListingResponse
 {
+    public List<CategoryResponse> Categories { get; set; } = [];
     public int           Id                    { get; set; }
     public string        Name                  { get; set; }
     public string        Slug                  { get; set; }

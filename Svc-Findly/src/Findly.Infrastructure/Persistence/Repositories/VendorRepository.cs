@@ -2,6 +2,7 @@ using AutoMapper;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using Findly.Domain.Entities;
+using Findly.Domain.Enums;
 using Findly.Domain.Repositories;
 using Findly.Infrastructure.Persistence.Entities;
 
@@ -18,20 +19,32 @@ internal sealed class VendorRepository : IVendorRepository
         _mapper  = mapper;
     }
 
-    public async Task<Vendor> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Vendor?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var db = await _context.Connection.QueryFirstOrDefaultAsync<DbVendor>(
-            "SELECT * FROM Vendors WHERE Id = @Id", new { Id = id });
+            "SELECT * FROM [fin].[Vendors] WHERE Id = @Id", new { Id = id });
 
-        return _mapper.Map<Vendor>(db);
+        return db is null ? null : _mapper.Map<Vendor>(db);
     }
 
-    public async Task<IEnumerable<Vendor>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<PagedResult<Vendor>> GetAllAsync(int page, int pageSize, VendorStatus? status, CancellationToken cancellationToken)
     {
-        var dbs = await _context.Connection.QueryAsync<DbVendor>(
-            "SELECT * FROM Vendors");
+        const string sql = """
+            SELECT COUNT(*) FROM [fin].[Vendors] WHERE (@Status IS NULL OR [Status] = @Status);
 
-        return _mapper.Map<IEnumerable<Vendor>>(dbs);
+            SELECT * FROM [fin].[Vendors]
+            WHERE (@Status IS NULL OR [Status] = @Status)
+            ORDER BY [Id]
+            OFFSET (@Page - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY;
+            """;
+
+        using var multi = await _context.Connection.QueryMultipleAsync(
+            sql, new { Status = (int?)status, Page = page, PageSize = pageSize });
+
+        var totalCount = await multi.ReadSingleAsync<int>();
+        var dbs        = await multi.ReadAsync<DbVendor>();
+
+        return new PagedResult<Vendor>(_mapper.Map<List<Vendor>>(dbs), totalCount, page, pageSize);
     }
 
     public async Task<Vendor> CreateAsync(Vendor vendor, CancellationToken cancellationToken)
@@ -52,7 +65,7 @@ internal sealed class VendorRepository : IVendorRepository
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
     {
         var rows = await _context.Connection.ExecuteAsync(
-            "DELETE FROM Vendors WHERE Id = @Id", new { Id = id });
+            "DELETE FROM [fin].[Vendors] WHERE Id = @Id", new { Id = id });
 
         return rows > 0;
     }

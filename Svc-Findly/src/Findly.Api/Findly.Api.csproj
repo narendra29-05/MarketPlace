@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.*" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.*" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.*" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.*" />
+    <PackageReference Include="Microsoft.OpenApi" Version="2.*" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="7.*" />
     <PackageReference Include="Asp.Versioning.Http" Version="8.*" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />

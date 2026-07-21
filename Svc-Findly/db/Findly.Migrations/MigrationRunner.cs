@@ -44,9 +44,8 @@ public class MigrationRunner
 
         _logger.LogInformation("Migrating {Schema} schema...", schema);
 
-        // Skip EnsureDatabase when using pgbouncer since it requires access to postgres database
-        // The database should already exist
-        // EnsureDatabase.For.PostgresqlDatabase(_connectionString);
+        // Create the database if it does not exist yet (connects to master first).
+        EnsureDatabase.For.SqlDatabase(_connectionString);
 
         var upgrader = CreateUpgrader(scriptsPath);
         var scriptsToExecute = upgrader.GetScriptsToExecute();

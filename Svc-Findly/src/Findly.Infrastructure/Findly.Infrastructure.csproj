@@ -12,10 +12,16 @@
     <PackageReference Include="Dapper" Version="2.*" />
     <PackageReference Include="Dapper.Contrib" Version="2.*" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.*" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Findly.Domain\Findly.Domain.csproj" />
+    <ProjectReference Include="..\Findly.Application\Findly.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Findly.UnitTests" />
   </ItemGroup>
 
 </Project>
