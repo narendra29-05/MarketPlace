@@ -1,23 +1,24 @@
 import type { ReactNode } from "react";
 import type { ListingSummary } from "./api";
 
-/* ---------- deterministic gradient from a name ---------- */
+/* ---------- deterministic tile color from a name ---------- */
 
-const TILE_GRADIENTS = [
-  ["#2e5bff", "#6c3df4"],
-  ["#0ea5a0", "#0e7a52"],
-  ["#f0871b", "#d1495b"],
-  ["#7c3aed", "#c026d3"],
-  ["#0e7490", "#2563eb"],
-  ["#d1495b", "#a21caf"],
-  ["#334155", "#0f172a"],
+// Flat, muted product-identity palette — colorful enough to distinguish,
+// desaturated enough to sit quietly in the monochrome system.
+const TILE_COLORS = [
+  "#0e7b54", // emerald
+  "#8a5a2b", // umber
+  "#3f5bd6", // indigo
+  "#0e7490", // teal
+  "#a3437c", // plum
+  "#475069", // slate
+  "#b0641f", // ochre
 ];
 
 function gradientFor(name: string): string {
   let hash = 0;
   for (const char of name) hash = (hash * 31 + char.charCodeAt(0)) | 0;
-  const [from, to] = TILE_GRADIENTS[Math.abs(hash) % TILE_GRADIENTS.length];
-  return `linear-gradient(135deg, ${from}, ${to})`;
+  return TILE_COLORS[Math.abs(hash) % TILE_COLORS.length];
 }
 
 function initialsOf(name: string): string {

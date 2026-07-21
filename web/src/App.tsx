@@ -13,16 +13,22 @@ import VendorPortalPage from "./pages/VendorPortal";
 
 const THEME_KEY = "findly.theme";
 
+function loadTheme(): string {
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored === "dark" || stored === "midnight") return "dark";
+  return "light";
+}
+
 function useTheme() {
-  const [theme, setTheme] = useState<string>(() => localStorage.getItem(THEME_KEY) ?? "midnight");
+  const [theme, setTheme] = useState<string>(loadTheme);
 
   useEffect(() => {
-    if (theme === "sandal") document.documentElement.dataset.theme = "sandal";
+    if (theme === "dark") document.documentElement.dataset.theme = "dark";
     else delete document.documentElement.dataset.theme;
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
 
-  return { theme, toggle: () => setTheme(current => (current === "sandal" ? "midnight" : "sandal")) };
+  return { theme, toggle: () => setTheme(current => (current === "dark" ? "light" : "dark")) };
 }
 
 function Brand() {
@@ -61,7 +67,7 @@ function ProfileMenu() {
           </div>
           <button className="menu-item" onClick={toggle}>
             Theme
-            <span>{theme === "sandal" ? "☀" : "☾"}</span>
+            <span>{theme === "dark" ? "☀" : "☾"}</span>
           </button>
           <button
             className="menu-item danger"
@@ -115,7 +121,7 @@ function NavBar() {
           ) : (
             <>
               <button className="icon-toggle" onClick={toggle} title="Switch theme" aria-label="Switch theme">
-                {theme === "sandal" ? "☀" : "☾"}
+                {theme === "dark" ? "☀" : "☾"}
               </button>
               <Link to="/signin" className="btn btn-primary btn-sm">
                 Sign in
