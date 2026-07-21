@@ -4,15 +4,15 @@ import type { ListingSummary } from "./api";
 /* ---------- deterministic tile color from a name ---------- */
 
 // Flat, muted product-identity palette — colorful enough to distinguish,
-// desaturated enough to sit quietly in the monochrome system.
+// desaturated enough to sit quietly under the iris "Silk" system.
 const TILE_COLORS = [
-  "#0e7b54", // emerald
-  "#8a5a2b", // umber
-  "#3f5bd6", // indigo
+  "#5b54d6", // iris
   "#0e7490", // teal
-  "#a3437c", // plum
-  "#475069", // slate
   "#b0641f", // ochre
+  "#a3437c", // plum
+  "#178f5f", // green
+  "#475069", // slate
+  "#8a5a2b", // umber
 ];
 
 function gradientFor(name: string): string {
