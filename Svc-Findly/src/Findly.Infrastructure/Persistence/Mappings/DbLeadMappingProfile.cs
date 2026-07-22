@@ -11,10 +11,10 @@ public class DbLeadMappingProfile : Profile
     {
         CreateMap<DbLead, Lead>()
             .ForMember(d => d.BusinessEmail, o => o.MapFrom(s => Email.Create(s.BusinessEmail)))
-            .ForMember(d => d.Phone,         o => o.MapFrom(s => s.Phone != null ? PhoneNumber.Create(s.Phone) : null));
+            .ForMember(d => d.Phone, o => o.MapFrom(s => s.Phone != null ? PhoneNumber.Create(s.Phone) : null));
 
         CreateMap<Lead, DbLead>()
             .ForMember(d => d.BusinessEmail, o => o.MapFrom(s => s.BusinessEmail.Value))
-            .ForMember(d => d.Phone,         o => o.MapFrom(s => s.Phone != null ? s.Phone.Value : null));
+            .ForMember(d => d.Phone, o => o.MapFrom(s => s.Phone != null ? s.Phone.Value : null));
     }
 }

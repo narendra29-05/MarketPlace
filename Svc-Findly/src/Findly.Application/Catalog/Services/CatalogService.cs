@@ -14,24 +14,24 @@ namespace Findly.Application.Catalog.Services;
 
 public class CatalogService : ICatalogService
 {
-    private readonly IListingRepository  _listingRepository;
+    private readonly IListingRepository _listingRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IVendorRepository   _vendorRepository;
-    private readonly IReviewRepository   _reviewRepository;
-    private readonly IMapper             _mapper;
+    private readonly IVendorRepository _vendorRepository;
+    private readonly IReviewRepository _reviewRepository;
+    private readonly IMapper _mapper;
 
     public CatalogService(
-        IListingRepository  listingRepository,
+        IListingRepository listingRepository,
         ICategoryRepository categoryRepository,
-        IVendorRepository   vendorRepository,
-        IReviewRepository   reviewRepository,
-        IMapper             mapper)
+        IVendorRepository vendorRepository,
+        IReviewRepository reviewRepository,
+        IMapper mapper)
     {
-        _listingRepository  = listingRepository;
+        _listingRepository = listingRepository;
         _categoryRepository = categoryRepository;
-        _vendorRepository   = vendorRepository;
-        _reviewRepository   = reviewRepository;
-        _mapper             = mapper;
+        _vendorRepository = vendorRepository;
+        _reviewRepository = reviewRepository;
+        _mapper = mapper;
     }
 
     public async Task<PagedResponse<ListingSummaryResponse>> SearchAsync(CatalogSearchRequest request, CancellationToken cancellationToken = default)
@@ -47,7 +47,7 @@ public class CatalogService : ICatalogService
             Math.Max(1, request.Page),
             Math.Clamp(request.PageSize, 1, 50));
 
-        var result   = await _listingRepository.SearchAsync(criteria, cancellationToken);
+        var result = await _listingRepository.SearchAsync(criteria, cancellationToken);
         var response = result.ToPagedResponse<Listing, ListingSummaryResponse>(_mapper);
 
         var categoriesByListing = await GetCategoriesByListingAsync(
@@ -79,7 +79,7 @@ public class CatalogService : ICatalogService
 
     public async Task<PagedResponse<ReviewResponse>> GetReviewsAsync(string slug, int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 50);
 
         var listing = await GetPublishedListingBySlugAsync(slug, cancellationToken);

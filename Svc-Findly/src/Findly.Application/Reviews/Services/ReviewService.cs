@@ -14,24 +14,24 @@ namespace Findly.Application.Reviews.Services;
 
 public class ReviewService : IReviewService
 {
-    private readonly IReviewRepository  _repository;
+    private readonly IReviewRepository _repository;
     private readonly IListingRepository _listingRepository;
-    private readonly IUnitOfWork        _unitOfWork;
-    private readonly ICurrentUser       _currentUser;
-    private readonly IMapper            _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUser _currentUser;
+    private readonly IMapper _mapper;
 
     public ReviewService(
-        IReviewRepository  repository,
+        IReviewRepository repository,
         IListingRepository listingRepository,
-        IUnitOfWork        unitOfWork,
-        ICurrentUser       currentUser,
-        IMapper            mapper)
+        IUnitOfWork unitOfWork,
+        ICurrentUser currentUser,
+        IMapper mapper)
     {
-        _repository        = repository;
+        _repository = repository;
         _listingRepository = listingRepository;
-        _unitOfWork        = unitOfWork;
-        _currentUser       = currentUser;
-        _mapper            = mapper;
+        _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
+        _mapper = mapper;
     }
 
     public async Task<ReviewResponse> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ public class ReviewService : IReviewService
 
     public async Task<PagedResponse<ReviewResponse>> GetByListingAsync(int listingId, ReviewStatus? status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var result = await _repository.GetByListingAsync(listingId, status, page, pageSize, cancellationToken);
@@ -51,7 +51,7 @@ public class ReviewService : IReviewService
 
     public async Task<PagedResponse<ReviewResponse>> GetAllAsync(ReviewStatus? status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var result = await _repository.GetAllAsync(status, page, pageSize, cancellationToken);

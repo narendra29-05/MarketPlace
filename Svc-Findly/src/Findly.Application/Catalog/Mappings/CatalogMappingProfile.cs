@@ -13,7 +13,7 @@ public class CatalogMappingProfile : Profile
 
         CreateMap<Listing, ListingDetailResponse>()
             .ForMember(dest => dest.VendorCompanyName, opt => opt.Ignore())
-            .ForMember(dest => dest.Categories,        opt => opt.Ignore());
+            .ForMember(dest => dest.Categories, opt => opt.Ignore());
 
         CreateMap<Listing, CompareItemResponse>()
             .ForMember(dest => dest.Categories, opt => opt.Ignore());

@@ -11,12 +11,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class ReviewRepository : IReviewRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public ReviewRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<Review?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -54,9 +54,9 @@ internal sealed class ReviewRepository : IReviewRepository
         return await QueryPagedAsync(sql, new
         {
             ListingId = listingId,
-            Status    = (int?)status,
-            Page      = page,
-            PageSize  = pageSize
+            Status = (int?)status,
+            Page = page,
+            PageSize = pageSize
         }, page, pageSize);
     }
 
@@ -74,17 +74,17 @@ internal sealed class ReviewRepository : IReviewRepository
 
         return await QueryPagedAsync(sql, new
         {
-            Status   = (int?)status,
-            Page     = page,
+            Status = (int?)status,
+            Page = page,
             PageSize = pageSize
         }, page, pageSize);
     }
 
     public async Task<Review> CreateAsync(Review review, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbReview>(review);
+        var db = _mapper.Map<DbReview>(review);
         var newId = await _context.Connection.InsertAsync(db, _context.CurrentTransaction);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<Review>(db);
     }
 
@@ -129,7 +129,7 @@ internal sealed class ReviewRepository : IReviewRepository
         using var multi = await _context.Connection.QueryMultipleAsync(sql, parameters, _context.CurrentTransaction);
 
         var totalCount = await multi.ReadSingleAsync<int>();
-        var dbs        = await multi.ReadAsync<DbReview>();
+        var dbs = await multi.ReadAsync<DbReview>();
 
         return new PagedResult<Review>(_mapper.Map<List<Review>>(dbs), totalCount, page, pageSize);
     }

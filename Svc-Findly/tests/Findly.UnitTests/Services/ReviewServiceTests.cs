@@ -13,11 +13,11 @@ namespace Findly.UnitTests.Services;
 
 public class ReviewServiceTests
 {
-    private readonly IReviewRepository  _reviewRepository  = Substitute.For<IReviewRepository>();
+    private readonly IReviewRepository _reviewRepository = Substitute.For<IReviewRepository>();
     private readonly IListingRepository _listingRepository = Substitute.For<IListingRepository>();
-    private readonly IUnitOfWork        _unitOfWork        = Substitute.For<IUnitOfWork>();
-    private readonly ICurrentUser       _currentUser       = Substitute.For<ICurrentUser>();
-    private readonly ReviewService      _service;
+    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+    private readonly ICurrentUser _currentUser = Substitute.For<ICurrentUser>();
+    private readonly ReviewService _service;
 
     public ReviewServiceTests()
     {
@@ -49,12 +49,12 @@ public class ReviewServiceTests
 
     private static CreateReviewRequest Request() => new()
     {
-        OverallRating         = 5,
-        FeaturesRating        = 4,
-        ValueForMoneyRating   = 5,
+        OverallRating = 5,
+        FeaturesRating = 4,
+        ValueForMoneyRating = 5,
         CustomerSupportRating = 4,
-        Title                 = "Great",
-        Body                  = "Solid tool."
+        Title = "Great",
+        Body = "Solid tool."
     };
 
     [Fact]
@@ -101,8 +101,12 @@ public class ReviewServiceTests
 
         var request = new UpdateReviewRequest
         {
-            OverallRating = 4, FeaturesRating = 4, ValueForMoneyRating = 4, CustomerSupportRating = 4,
-            Title = "x", Body = "y"
+            OverallRating = 4,
+            FeaturesRating = 4,
+            ValueForMoneyRating = 4,
+            CustomerSupportRating = 4,
+            Title = "x",
+            Body = "y"
         };
 
         await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _service.UpdateAsync(10, request));
@@ -112,7 +116,7 @@ public class ReviewServiceTests
     public async Task Approve_recomputes_listing_aggregates_in_transaction()
     {
         _currentUser.IsAdmin.Returns(true);
-        var review  = Review.Create(1, "Bob Buyer", "bob@corp.io", 5, 4, 5, 4, "T", "B", null, null, "x");
+        var review = Review.Create(1, "Bob Buyer", "bob@corp.io", 5, 4, 5, 4, "T", "B", null, null, "x");
         var listing = PublishedListing();
 
         _reviewRepository.GetByIdAsync(10, Arg.Any<CancellationToken>()).Returns(review);

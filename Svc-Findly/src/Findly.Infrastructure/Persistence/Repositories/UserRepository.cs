@@ -10,12 +10,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class UserRepository : IUserRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public UserRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -40,9 +40,9 @@ internal sealed class UserRepository : IUserRepository
 
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbUser>(user);
+        var db = _mapper.Map<DbUser>(user);
         var newId = await _context.Connection.InsertAsync(db, _context.CurrentTransaction);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<User>(db);
     }
 

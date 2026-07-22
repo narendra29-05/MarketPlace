@@ -11,12 +11,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class VendorRepository : IVendorRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public VendorRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<Vendor?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -42,16 +42,16 @@ internal sealed class VendorRepository : IVendorRepository
             sql, new { Status = (int?)status, Page = page, PageSize = pageSize });
 
         var totalCount = await multi.ReadSingleAsync<int>();
-        var dbs        = await multi.ReadAsync<DbVendor>();
+        var dbs = await multi.ReadAsync<DbVendor>();
 
         return new PagedResult<Vendor>(_mapper.Map<List<Vendor>>(dbs), totalCount, page, pageSize);
     }
 
     public async Task<Vendor> CreateAsync(Vendor vendor, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbVendor>(vendor);
+        var db = _mapper.Map<DbVendor>(vendor);
         var newId = await _context.Connection.InsertAsync(db);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<Vendor>(db);
     }
 

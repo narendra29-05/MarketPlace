@@ -15,27 +15,27 @@ namespace Findly.Application.Listings.Services;
 
 public class ListingService : IListingService
 {
-    private readonly IListingRepository  _repository;
-    private readonly IVendorRepository   _vendorRepository;
+    private readonly IListingRepository _repository;
+    private readonly IVendorRepository _vendorRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IUserRepository     _userRepository;
-    private readonly ICurrentUser        _currentUser;
-    private readonly IMapper             _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly ICurrentUser _currentUser;
+    private readonly IMapper _mapper;
 
     public ListingService(
-        IListingRepository  repository,
-        IVendorRepository   vendorRepository,
+        IListingRepository repository,
+        IVendorRepository vendorRepository,
         ICategoryRepository categoryRepository,
-        IUserRepository     userRepository,
-        ICurrentUser        currentUser,
-        IMapper             mapper)
+        IUserRepository userRepository,
+        ICurrentUser currentUser,
+        IMapper mapper)
     {
-        _repository         = repository;
-        _vendorRepository   = vendorRepository;
+        _repository = repository;
+        _vendorRepository = vendorRepository;
         _categoryRepository = categoryRepository;
-        _userRepository     = userRepository;
-        _currentUser        = currentUser;
-        _mapper             = mapper;
+        _userRepository = userRepository;
+        _currentUser = currentUser;
+        _mapper = mapper;
     }
 
     public async Task<ListingResponse> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -51,10 +51,10 @@ public class ListingService : IListingService
 
     public async Task<PagedResponse<ListingResponse>> GetAllAsync(int page, int pageSize, ListingStatus? status = null, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
-        var result   = await _repository.GetAllAsync(page, pageSize, status, cancellationToken);
+        var result = await _repository.GetAllAsync(page, pageSize, status, cancellationToken);
         var response = result.ToPagedResponse<Listing, ListingResponse>(_mapper);
 
         await HydrateCategoriesAsync(response.Items, cancellationToken);
@@ -63,12 +63,12 @@ public class ListingService : IListingService
 
     public async Task<PagedResponse<ListingResponse>> GetMyListingsAsync(int page, int pageSize, ListingStatus? status = null, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var vendorId = await RequireVendorIdAsync(cancellationToken);
 
-        var result   = await _repository.GetByVendorIdAsync(vendorId, status, page, pageSize, cancellationToken);
+        var result = await _repository.GetByVendorIdAsync(vendorId, status, page, pageSize, cancellationToken);
         var response = result.ToPagedResponse<Listing, ListingResponse>(_mapper);
 
         await HydrateCategoriesAsync(response.Items, cancellationToken);

@@ -10,12 +10,12 @@ public class CreateListingRequestValidatorTests
 
     private static CreateListingRequest ValidRequest() => new()
     {
-        Name             = "AcmeCRM",
-        Slug             = "acme-crm",
+        Name = "AcmeCRM",
+        Slug = "acme-crm",
         ShortDescription = "A friendly CRM",
-        WebsiteUrl       = "https://acme.io",
-        PricingType      = PricingType.Paid,
-        CategoryIds      = [1, 2]
+        WebsiteUrl = "https://acme.io",
+        PricingType = PricingType.Paid,
+        CategoryIds = [1, 2]
     };
 
     [Fact]
@@ -67,7 +67,7 @@ public class CreateListingRequestValidatorTests
     public void Free_trial_requires_positive_days()
     {
         var request = ValidRequest();
-        request.HasFreeTrial  = true;
+        request.HasFreeTrial = true;
         request.FreeTrialDays = 0;
 
         Assert.False(_validator.Validate(request).IsValid);

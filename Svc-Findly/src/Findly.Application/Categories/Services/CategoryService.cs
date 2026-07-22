@@ -11,14 +11,14 @@ namespace Findly.Application.Categories.Services;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
-    private readonly ICurrentUser        _currentUser;
-    private readonly IMapper             _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IMapper _mapper;
 
     public CategoryService(ICategoryRepository repository, ICurrentUser currentUser, IMapper mapper)
     {
-        _repository  = repository;
+        _repository = repository;
         _currentUser = currentUser;
-        _mapper      = mapper;
+        _mapper = mapper;
     }
 
     public async Task<IReadOnlyList<CategoryResponse>> GetAllAsync(bool includeInactive = false, CancellationToken cancellationToken = default)

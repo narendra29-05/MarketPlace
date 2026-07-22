@@ -11,12 +11,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class LeadRepository : ILeadRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public LeadRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<Lead?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -44,8 +44,8 @@ internal sealed class LeadRepository : ILeadRepository
         return await QueryPagedAsync(sql, new
         {
             VendorId = vendorId,
-            Status   = (int?)status,
-            Page     = page,
+            Status = (int?)status,
+            Page = page,
             PageSize = pageSize
         }, page, pageSize);
     }
@@ -64,17 +64,17 @@ internal sealed class LeadRepository : ILeadRepository
 
         return await QueryPagedAsync(sql, new
         {
-            Status   = (int?)status,
-            Page     = page,
+            Status = (int?)status,
+            Page = page,
             PageSize = pageSize
         }, page, pageSize);
     }
 
     public async Task<Lead> CreateAsync(Lead lead, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbLead>(lead);
+        var db = _mapper.Map<DbLead>(lead);
         var newId = await _context.Connection.InsertAsync(db, _context.CurrentTransaction);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<Lead>(db);
     }
 
@@ -90,7 +90,7 @@ internal sealed class LeadRepository : ILeadRepository
         using var multi = await _context.Connection.QueryMultipleAsync(sql, parameters, _context.CurrentTransaction);
 
         var totalCount = await multi.ReadSingleAsync<int>();
-        var dbs        = (await multi.ReadAsync<DbLead>()).ToList();
+        var dbs = (await multi.ReadAsync<DbLead>()).ToList();
 
         var listingNames = await GetListingNamesAsync(dbs.Select(d => d.ListingId).Distinct().ToList());
 
@@ -118,7 +118,7 @@ internal sealed class LeadRepository : ILeadRepository
 
     private sealed class NameRow
     {
-        public int    Id   { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

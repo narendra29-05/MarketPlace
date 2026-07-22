@@ -15,20 +15,20 @@ namespace Findly.Application.Vendors.Services;
 public class VendorService : IVendorService
 {
     private readonly IVendorRepository _repository;
-    private readonly IUserRepository   _userRepository;
-    private readonly ICurrentUser      _currentUser;
-    private readonly IMapper           _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly ICurrentUser _currentUser;
+    private readonly IMapper _mapper;
 
     public VendorService(
         IVendorRepository repository,
-        IUserRepository   userRepository,
-        ICurrentUser      currentUser,
-        IMapper           mapper)
+        IUserRepository userRepository,
+        ICurrentUser currentUser,
+        IMapper mapper)
     {
-        _repository     = repository;
+        _repository = repository;
         _userRepository = userRepository;
-        _currentUser    = currentUser;
-        _mapper         = mapper;
+        _currentUser = currentUser;
+        _mapper = mapper;
     }
 
     public async Task<VendorResponse> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -51,7 +51,7 @@ public class VendorService : IVendorService
 
     public async Task<PagedResponse<VendorResponse>> GetAllAsync(int page, int pageSize, VendorStatus? status = null, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var result = await _repository.GetAllAsync(page, pageSize, status, cancellationToken);

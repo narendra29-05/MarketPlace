@@ -13,24 +13,24 @@ namespace Findly.Application.Leads.Services;
 
 public class LeadService : ILeadService
 {
-    private readonly ILeadRepository    _repository;
+    private readonly ILeadRepository _repository;
     private readonly IListingRepository _listingRepository;
-    private readonly IUserRepository    _userRepository;
-    private readonly ICurrentUser       _currentUser;
-    private readonly IMapper            _mapper;
+    private readonly IUserRepository _userRepository;
+    private readonly ICurrentUser _currentUser;
+    private readonly IMapper _mapper;
 
     public LeadService(
-        ILeadRepository    repository,
+        ILeadRepository repository,
         IListingRepository listingRepository,
-        IUserRepository    userRepository,
-        ICurrentUser       currentUser,
-        IMapper            mapper)
+        IUserRepository userRepository,
+        ICurrentUser currentUser,
+        IMapper mapper)
     {
-        _repository        = repository;
+        _repository = repository;
         _listingRepository = listingRepository;
-        _userRepository    = userRepository;
-        _currentUser       = currentUser;
-        _mapper            = mapper;
+        _userRepository = userRepository;
+        _currentUser = currentUser;
+        _mapper = mapper;
     }
 
     public async Task<LeadResponse> SubmitAsync(int listingId, CreateLeadRequest request, CancellationToken cancellationToken = default)
@@ -66,7 +66,7 @@ public class LeadService : ILeadService
         var lead = await GetLeadOrThrowAsync(id, cancellationToken);
         await EnsureVendorOwnershipAsync(lead, cancellationToken);
 
-        var listing  = await _listingRepository.GetByIdAsync(lead.ListingId, cancellationToken);
+        var listing = await _listingRepository.GetByIdAsync(lead.ListingId, cancellationToken);
         var response = _mapper.Map<LeadResponse>(lead);
         response.ListingName = listing?.Name;
         return response;
@@ -74,7 +74,7 @@ public class LeadService : ILeadService
 
     public async Task<PagedResponse<LeadResponse>> GetMyLeadsAsync(LeadStatus? status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var vendorId = await RequireVendorIdAsync(cancellationToken);
@@ -85,7 +85,7 @@ public class LeadService : ILeadService
 
     public async Task<PagedResponse<LeadResponse>> GetAllAsync(LeadStatus? status, int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        page     = Math.Max(1, page);
+        page = Math.Max(1, page);
         pageSize = Math.Clamp(pageSize, 1, 100);
 
         var result = await _repository.GetAllAsync(status, page, pageSize, cancellationToken);
@@ -100,7 +100,7 @@ public class LeadService : ILeadService
         lead.TransitionTo(status, _currentUser.AuditName);
         await _repository.UpdateAsync(lead, cancellationToken);
 
-        var listing  = await _listingRepository.GetByIdAsync(lead.ListingId, cancellationToken);
+        var listing = await _listingRepository.GetByIdAsync(lead.ListingId, cancellationToken);
         var response = _mapper.Map<LeadResponse>(lead);
         response.ListingName = listing?.Name;
         return response;
@@ -155,10 +155,10 @@ public class LeadService : ILeadService
 
         return new PagedResponse<LeadResponse>
         {
-            Items      = items,
+            Items = items,
             TotalCount = result.TotalCount,
-            Page       = result.Page,
-            PageSize   = result.PageSize
+            Page = result.Page,
+            PageSize = result.PageSize
         };
     }
 }

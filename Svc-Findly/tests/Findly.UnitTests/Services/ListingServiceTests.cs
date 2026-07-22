@@ -13,12 +13,12 @@ namespace Findly.UnitTests.Services;
 
 public class ListingServiceTests
 {
-    private readonly IListingRepository  _listingRepository  = Substitute.For<IListingRepository>();
-    private readonly IVendorRepository   _vendorRepository   = Substitute.For<IVendorRepository>();
+    private readonly IListingRepository _listingRepository = Substitute.For<IListingRepository>();
+    private readonly IVendorRepository _vendorRepository = Substitute.For<IVendorRepository>();
     private readonly ICategoryRepository _categoryRepository = Substitute.For<ICategoryRepository>();
-    private readonly IUserRepository     _userRepository     = Substitute.For<IUserRepository>();
-    private readonly ICurrentUser        _currentUser        = Substitute.For<ICurrentUser>();
-    private readonly ListingService      _service;
+    private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
+    private readonly ICurrentUser _currentUser = Substitute.For<ICurrentUser>();
+    private readonly ListingService _service;
 
     public ListingServiceTests()
     {
@@ -46,12 +46,12 @@ public class ListingServiceTests
 
     private static CreateListingRequest Request() => new()
     {
-        Name             = "AcmeCRM",
-        Slug             = "acme-crm",
+        Name = "AcmeCRM",
+        Slug = "acme-crm",
         ShortDescription = "CRM",
-        WebsiteUrl       = "https://acme.io",
-        PricingType      = PricingType.Paid,
-        CategoryIds      = [1]
+        WebsiteUrl = "https://acme.io",
+        PricingType = PricingType.Paid,
+        CategoryIds = [1]
     };
 
     [Fact]
@@ -92,8 +92,12 @@ public class ListingServiceTests
 
         var update = new UpdateListingRequest
         {
-            Name = "X", Slug = "x", ShortDescription = "d", WebsiteUrl = "https://x.io",
-            PricingType = PricingType.Free, CategoryIds = [1]
+            Name = "X",
+            Slug = "x",
+            ShortDescription = "d",
+            WebsiteUrl = "https://x.io",
+            PricingType = PricingType.Free,
+            CategoryIds = [1]
         };
 
         await Assert.ThrowsAsync<UnauthorizedAccessException>(() => _service.UpdateAsync(3, update));

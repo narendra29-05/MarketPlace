@@ -10,10 +10,10 @@ public static class PagedMapping
     {
         return new PagedResponse<TResponse>
         {
-            Items      = mapper.Map<List<TResponse>>(result.Items),
+            Items = mapper.Map<List<TResponse>>(result.Items),
             TotalCount = result.TotalCount,
-            Page       = result.Page,
-            PageSize   = result.PageSize
+            Page = result.Page,
+            PageSize = result.PageSize
         };
     }
 }

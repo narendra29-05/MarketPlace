@@ -9,8 +9,8 @@ namespace Findly.Application.Catalog.Interfaces;
 public interface ICatalogService
 {
     Task<PagedResponse<ListingSummaryResponse>> SearchAsync(CatalogSearchRequest request, CancellationToken cancellationToken = default);
-    Task<ListingDetailResponse>                 GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
-    Task<PagedResponse<ReviewResponse>>         GetReviewsAsync(string slug, int page, int pageSize, CancellationToken cancellationToken = default);
-    Task<CompareResponse>                       CompareAsync(IReadOnlyCollection<int> listingIds, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<CategoryResponse>>       GetCategoriesAsync(CancellationToken cancellationToken = default);
+    Task<ListingDetailResponse> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+    Task<PagedResponse<ReviewResponse>> GetReviewsAsync(string slug, int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<CompareResponse> CompareAsync(IReadOnlyCollection<int> listingIds, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<CategoryResponse>> GetCategoriesAsync(CancellationToken cancellationToken = default);
 }

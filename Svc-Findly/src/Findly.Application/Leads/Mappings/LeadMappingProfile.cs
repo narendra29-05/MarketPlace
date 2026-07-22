@@ -10,7 +10,7 @@ public class LeadMappingProfile : Profile
     {
         CreateMap<Lead, LeadResponse>()
             .ForMember(dest => dest.BusinessEmail, opt => opt.MapFrom(src => src.BusinessEmail.Value))
-            .ForMember(dest => dest.Phone,         opt => opt.MapFrom(src => src.Phone != null ? src.Phone.Value : null))
-            .ForMember(dest => dest.ListingName,   opt => opt.Ignore());
+            .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone != null ? src.Phone.Value : null))
+            .ForMember(dest => dest.ListingName, opt => opt.Ignore());
     }
 }

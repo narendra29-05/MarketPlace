@@ -12,12 +12,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class ListingRepository : IListingRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public ListingRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<Listing?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -82,8 +82,8 @@ internal sealed class ListingRepository : IListingRepository
         return await QueryPagedAsync(sql, new
         {
             VendorId = vendorId,
-            Status   = (int?)status,
-            Page     = page,
+            Status = (int?)status,
+            Page = page,
             PageSize = pageSize
         }, page, pageSize);
     }
@@ -121,9 +121,9 @@ internal sealed class ListingRepository : IListingRepository
         var orderBy = criteria.SortBy switch
         {
             ListingSortBy.ReviewCount => "[ReviewCount] DESC, [AverageRating] DESC",
-            ListingSortBy.Newest      => "[CreatedAt] DESC",
-            ListingSortBy.Name        => "[Name] ASC",
-            _                         => "[AverageRating] DESC, [ReviewCount] DESC"
+            ListingSortBy.Newest => "[CreatedAt] DESC",
+            ListingSortBy.Name => "[Name] ASC",
+            _ => "[AverageRating] DESC, [ReviewCount] DESC"
         };
 
         var sql = $"""
@@ -137,11 +137,11 @@ internal sealed class ListingRepository : IListingRepository
 
         var parameters = new
         {
-            Published    = (int)ListingStatus.Published,
-            Search       = $"%{criteria.Search?.Trim()}%",
+            Published = (int)ListingStatus.Published,
+            Search = $"%{criteria.Search?.Trim()}%",
             criteria.CategoryId,
             criteria.CategorySlug,
-            PricingType  = (int?)criteria.PricingType,
+            PricingType = (int?)criteria.PricingType,
             criteria.MinRating,
             criteria.HasFreeTrial,
             criteria.Page,
@@ -153,9 +153,9 @@ internal sealed class ListingRepository : IListingRepository
 
     public async Task<Listing> CreateAsync(Listing listing, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbListing>(listing);
+        var db = _mapper.Map<DbListing>(listing);
         var newId = await _context.Connection.InsertAsync(db, _context.CurrentTransaction);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<Listing>(db);
     }
 
@@ -197,7 +197,7 @@ internal sealed class ListingRepository : IListingRepository
         using var multi = await _context.Connection.QueryMultipleAsync(sql, parameters, _context.CurrentTransaction);
 
         var totalCount = await multi.ReadSingleAsync<int>();
-        var dbs        = await multi.ReadAsync<DbListing>();
+        var dbs = await multi.ReadAsync<DbListing>();
 
         return new PagedResult<Listing>(_mapper.Map<List<Listing>>(dbs), totalCount, page, pageSize);
     }

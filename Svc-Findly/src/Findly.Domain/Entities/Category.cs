@@ -4,11 +4,11 @@ public class Category : Entity
 {
     protected Category() { }
 
-    public string  Name        { get; private set; }
-    public string  Slug        { get; private set; }
+    public string Name { get; private set; }
+    public string Slug { get; private set; }
     public string? Description { get; private set; }
-    public string? IconUrl     { get; private set; }
-    public bool    IsActive    { get; private set; }
+    public string? IconUrl { get; private set; }
+    public bool IsActive { get; private set; }
 
     // =========================================================================
     // Factory
@@ -18,14 +18,14 @@ public class Category : Entity
     {
         return new Category
         {
-            Name        = name,
-            Slug        = slug,
+            Name = name,
+            Slug = slug,
             Description = description,
-            IconUrl     = iconUrl,
-            IsActive    = true,
-            CreatedBy   = createdBy,
-            CreatedAt   = DateTime.UtcNow,
-            UpdatedAt   = DateTime.UtcNow
+            IconUrl = iconUrl,
+            IsActive = true,
+            CreatedBy = createdBy,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
     }
 
@@ -35,12 +35,12 @@ public class Category : Entity
 
     public void UpdateDetails(string name, string slug, string? description, string? iconUrl, bool isActive, string updatedBy)
     {
-        Name        = name;
-        Slug        = slug;
+        Name = name;
+        Slug = slug;
         Description = description;
-        IconUrl     = iconUrl;
-        IsActive    = isActive;
-        UpdatedAt   = DateTime.UtcNow;
-        UpdatedBy   = updatedBy;
+        IconUrl = iconUrl;
+        IsActive = isActive;
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedBy = updatedBy;
     }
 }

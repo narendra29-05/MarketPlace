@@ -36,7 +36,7 @@ public class CatalogController : ControllerBase
     [HttpGet("listings/{slug}/reviews")]
     public async Task<IActionResult> GetReviews(
         string slug,
-        [FromQuery] int page     = 1,
+        [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
         CancellationToken cancellationToken = default)
     {

@@ -10,12 +10,12 @@ namespace Findly.Infrastructure.Persistence.Repositories;
 internal sealed class CategoryRepository : ICategoryRepository
 {
     private readonly DatabaseContext _context;
-    private readonly IMapper         _mapper;
+    private readonly IMapper _mapper;
 
     public CategoryRepository(DatabaseContext context, IMapper mapper)
     {
         _context = context;
-        _mapper  = mapper;
+        _mapper = mapper;
     }
 
     public async Task<Category?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -90,7 +90,7 @@ internal sealed class CategoryRepository : ICategoryRepository
             return [];
 
         var categories = await GetByIdsAsync(links.Select(l => l.CategoryId).Distinct().ToList(), cancellationToken);
-        var byId       = categories.ToDictionary(c => c.Id);
+        var byId = categories.ToDictionary(c => c.Id);
 
         return links
             .Where(l => byId.ContainsKey(l.CategoryId))
@@ -100,9 +100,9 @@ internal sealed class CategoryRepository : ICategoryRepository
 
     public async Task<Category> CreateAsync(Category category, CancellationToken cancellationToken)
     {
-        var db    = _mapper.Map<DbCategory>(category);
+        var db = _mapper.Map<DbCategory>(category);
         var newId = await _context.Connection.InsertAsync(db, _context.CurrentTransaction);
-        db.Id     = (int)newId;
+        db.Id = (int)newId;
         return _mapper.Map<Category>(db);
     }
 
@@ -125,7 +125,7 @@ internal sealed class CategoryRepository : ICategoryRepository
 
     private sealed class LinkRow
     {
-        public int ListingId  { get; set; }
+        public int ListingId { get; set; }
         public int CategoryId { get; set; }
     }
 }

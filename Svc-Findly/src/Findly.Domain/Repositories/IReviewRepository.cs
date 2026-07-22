@@ -8,7 +8,7 @@ public sealed record ListingRatingAggregate(
     decimal FeaturesRating,
     decimal ValueForMoneyRating,
     decimal CustomerSupportRating,
-    int     ReviewCount);
+    int ReviewCount);
 
 public interface IReviewRepository
 {
