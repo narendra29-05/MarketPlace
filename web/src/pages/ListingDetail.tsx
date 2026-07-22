@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { api, LEAD_TYPE, PRICING, priceLine, type Lead, type ListingDetail, type Paged, type Review } from "../api";
-import { ROLE_BUYER, useAuth } from "../auth";
+import { useAuth } from "../auth";
 import { Avatar, Field, LogoTile, Pager, RatingSelect, ScorePanel, scoresOf, Stars } from "../ui";
 
 function LeadForm({ listing }: { listing: ListingDetail }) {
@@ -314,20 +314,13 @@ export default function ListingDetailPage() {
             ))}
             {reviews && <Pager page={reviews.page} totalPages={reviews.totalPages} onPage={setReviewPage} />}
 
-            {user?.role === ROLE_BUYER ? (
-              <div className="section-gap">
-                <h3 style={{ marginBottom: 10 }}>Write a review</h3>
-                <p className="review-meta" style={{ marginBottom: 10 }}>
-                  Posting as {user.firstName} {user.lastName} ({user.email})
-                </p>
-                <ReviewForm listingId={listing.id} onCreated={() => setReviewPage(1)} />
-              </div>
-            ) : (
-              <p className="review-meta section-gap">
-                <Link to="/signin">Sign in with a buyer account</Link> to write a review — vendors
-                can't rate products, that's the point.
+            <div className="section-gap">
+              <h3 style={{ marginBottom: 10 }}>Write a review</h3>
+              <p className="review-meta" style={{ marginBottom: 10 }}>
+                Posting as {user.firstName} {user.lastName} ({user.email})
               </p>
-            )}
+              <ReviewForm listingId={listing.id} onCreated={() => setReviewPage(1)} />
+            </div>
           </div>
         </div>
 

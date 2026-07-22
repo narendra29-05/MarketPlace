@@ -1,7 +1,6 @@
 using Asp.Versioning;
 using Findly.Application.Categories.Interfaces;
 using Findly.Contracts.Category.Requests;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Findly.Api.Controllers.V1;
@@ -34,7 +33,6 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateCategoryRequest request,
@@ -44,7 +42,6 @@ public class CategoryController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = category.Id, version = "1.0" }, category);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(
         int id,
@@ -55,7 +52,6 @@ public class CategoryController : ControllerBase
         return Ok(category);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
     {

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   api,
   INDUSTRIES,
@@ -11,7 +10,6 @@ import {
   type Review,
   type Vendor,
 } from "../api";
-import { ROLE_ADMIN, useAuth } from "../auth";
 import { Pager, StatusPill } from "../ui";
 
 function usePaged<T>(path: string) {
@@ -260,17 +258,7 @@ function LeadsTab() {
 }
 
 export default function AdminPage() {
-  const { user } = useAuth();
   const [tab, setTab] = useState<"vendors" | "listings" | "reviews" | "leads">("vendors");
-
-  if (user?.role !== ROLE_ADMIN) {
-    return (
-      <div className="empty section-gap">
-        Moderation is for administrators. <Link to="/signin">Sign in with an admin account</Link> to
-        review pending vendors, listings and reviews.
-      </div>
-    );
-  }
 
   return (
     <>

@@ -8,8 +8,8 @@ public class WebModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterType<CurrentUser>()
+        builder.RegisterType<LocalUser>()
             .As<ICurrentUser>()
-            .InstancePerLifetimeScope();
+            .SingleInstance();
     }
 }

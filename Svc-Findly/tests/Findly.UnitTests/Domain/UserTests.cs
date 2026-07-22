@@ -14,10 +14,12 @@ public class UserTests
         Assert.Equal("vera@acme.io", user.EmailAddress.Value);
     }
 
-    [Fact]
-    public void LinkVendor_sets_vendor_id_for_vendor_role()
+    [Theory]
+    [InlineData(UserRole.Vendor)]
+    [InlineData(UserRole.Admin)]
+    public void LinkVendor_sets_vendor_id(UserRole role)
     {
-        var user = User.Create("Vera", "Vendor", "vera@acme.io", "hash", UserRole.Vendor, "test");
+        var user = User.Create("Vera", "Vendor", "vera@acme.io", "hash", role, "test");
 
         user.LinkVendor(42, "vera@acme.io");
 
@@ -31,16 +33,6 @@ public class UserTests
         user.LinkVendor(42, "vera@acme.io");
 
         Assert.Throws<InvalidOperationException>(() => user.LinkVendor(43, "vera@acme.io"));
-    }
-
-    [Theory]
-    [InlineData(UserRole.Buyer)]
-    [InlineData(UserRole.Admin)]
-    public void LinkVendor_requires_vendor_role(UserRole role)
-    {
-        var user = User.Create("X", "Y", "x@y.io", "hash", role, "test");
-
-        Assert.Throws<InvalidOperationException>(() => user.LinkVendor(42, "x@y.io"));
     }
 
     [Fact]

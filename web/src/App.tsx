@@ -1,14 +1,12 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, NavLink, Route, Routes, useNavigate } from "react-router-dom";
-import { ROLE_ADMIN, ROLE_VENDOR, useAuth } from "./auth";
+import { useAuth } from "./auth";
 import { useCompare } from "./compare";
 import { Avatar } from "./ui";
 import AdminPage from "./pages/Admin";
 import CatalogPage from "./pages/Catalog";
 import ComparePage from "./pages/Compare";
 import ListingDetailPage from "./pages/ListingDetail";
-import RegisterPage from "./pages/Register";
-import SignInPage from "./pages/SignIn";
 import VendorPortalPage from "./pages/VendorPortal";
 
 const THEME_KEY = "findly.theme";
@@ -40,15 +38,10 @@ function Brand() {
   );
 }
 
-const ROLE_LABEL: Record<number, string> = { 1: "Admin", 2: "Vendor", 3: "Buyer" };
-
 function ProfileMenu() {
-  const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
-
-  if (!user) return null;
 
   return (
     <span className="menu-wrap">
@@ -63,21 +56,11 @@ function ProfileMenu() {
               {user.firstName} {user.lastName}
             </div>
             <div className="mail">{user.email}</div>
-            <span className="rolebadge">{ROLE_LABEL[user.role]}</span>
+            <span className="rolebadge">Local</span>
           </div>
           <button className="menu-item" onClick={toggle}>
             Theme
             <span>{theme === "dark" ? "☀" : "☾"}</span>
-          </button>
-          <button
-            className="menu-item danger"
-            onClick={() => {
-              setOpen(false);
-              signOut();
-              navigate("/");
-            }}
-          >
-            Sign out
           </button>
         </div>
       )}
@@ -87,8 +70,6 @@ function ProfileMenu() {
 
 function NavBar() {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { theme, toggle } = useTheme();
   const [search, setSearch] = useState("");
 
   function submitSearch(event: FormEvent) {
@@ -112,22 +93,9 @@ function NavBar() {
           <NavLink to="/" end>
             Browse
           </NavLink>
-          {(user?.role === ROLE_VENDOR || user?.role === ROLE_ADMIN) && (
-            <NavLink to="/vendor">Vendor portal</NavLink>
-          )}
-          {user?.role === ROLE_ADMIN && <NavLink to="/admin">Admin</NavLink>}
-          {user ? (
-            <ProfileMenu />
-          ) : (
-            <>
-              <button className="icon-toggle" onClick={toggle} title="Switch theme" aria-label="Switch theme">
-                {theme === "dark" ? "☀" : "☾"}
-              </button>
-              <Link to="/signin" className="btn btn-primary btn-sm">
-                Sign in
-              </Link>
-            </>
-          )}
+          <NavLink to="/vendor">Vendor portal</NavLink>
+          <NavLink to="/admin">Admin</NavLink>
+          <ProfileMenu />
         </nav>
       </div>
     </header>
@@ -154,20 +122,19 @@ function Footer() {
           <h4>Explore</h4>
           <Link to="/">Browse software</Link>
           <Link to="/compare">Compare products</Link>
-          <Link to="/signin">Sign in</Link>
         </div>
         <div>
           <h4>For teams</h4>
-          <Link to="/register">Create an account</Link>
           <Link to="/vendor">Vendor portal</Link>
+          <Link to="/admin">Moderation</Link>
         </div>
         <div className="footer-cta">
           <h4>List your product</h4>
           <p>
-            Reach buyers at the exact moment they're comparing options. Register as a vendor and
-            publish your first listing today.
+            Reach buyers at the exact moment they're comparing options. Set up your vendor profile
+            and publish your first listing today.
           </p>
-          <Link to="/register" className="btn btn-primary btn-sm">
+          <Link to="/vendor" className="btn btn-primary btn-sm">
             Become a vendor →
           </Link>
         </div>
@@ -226,8 +193,6 @@ export default function App() {
           <Route path="/" element={<CatalogPage />} />
           <Route path="/l/:slug" element={<ListingDetailPage />} />
           <Route path="/compare" element={<ComparePage />} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/register" element={<RegisterPage />} />
           <Route path="/vendor" element={<VendorPortalPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<div className="empty">This page does not exist. Head back to Browse.</div>} />

@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -20,38 +18,5 @@ public static class HttpExtensions
     {
         var body = await response.Content.ReadAsStringAsync();
         return JsonDocument.Parse(body).RootElement.Clone();
-    }
-
-    public static HttpClient WithToken(this HttpClient client, string token)
-    {
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        return client;
-    }
-
-    /// <summary>Registers a fresh user (unique email) and returns (token, email).</summary>
-    public static async Task<(string Token, string Email)> RegisterAsync(this HttpClient client, int role, string prefix)
-    {
-        var email    = $"{prefix}-{Guid.NewGuid():N}@test.findly.local";
-        var response = await client.PostAsJsonAsync("/api/v1/auth/register", new
-        {
-            firstName = "Test",
-            lastName  = prefix,
-            email,
-            password  = "Test@12345",
-            role
-        });
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.ReadJsonAsync();
-        return (json.GetProperty("token").GetString()!, email);
-    }
-
-    public static async Task<string> LoginAsync(this HttpClient client, string email, string password)
-    {
-        var response = await client.PostAsJsonAsync("/api/v1/auth/login", new { email, password });
-        response.EnsureSuccessStatusCode();
-
-        var json = await response.ReadJsonAsync();
-        return json.GetProperty("token").GetString()!;
     }
 }

@@ -3,7 +3,6 @@ using Findly.Application.Listings.Interfaces;
 using Findly.Contracts.Common;
 using Findly.Contracts.Listing.Requests;
 using Findly.Domain.Enums;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Findly.Api.Controllers.V1;
@@ -11,7 +10,6 @@ namespace Findly.Api.Controllers.V1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/listings")]
-[Authorize]
 public class ListingController : ControllerBase
 {
     private readonly IListingService _listingService;
@@ -21,10 +19,9 @@ public class ListingController : ControllerBase
         _listingService = listingService;
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll(
-        [FromQuery] int page     = 1,
+        [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
         [FromQuery] ListingStatus? status = null,
         CancellationToken cancellationToken = default)
@@ -33,7 +30,6 @@ public class ListingController : ControllerBase
         return Ok(listings);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
     {
@@ -41,7 +37,6 @@ public class ListingController : ControllerBase
         return Ok(listing);
     }
 
-    [Authorize(Roles = "Vendor")]
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromBody] CreateListingRequest request,
@@ -51,7 +46,6 @@ public class ListingController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = listing.Id, version = "1.0" }, listing);
     }
 
-    [Authorize(Roles = "Vendor,Admin")]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(
         int id,
@@ -62,7 +56,6 @@ public class ListingController : ControllerBase
         return Ok(listing);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
     {
@@ -70,7 +63,6 @@ public class ListingController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost("{id:int}/approve")]
     public async Task<IActionResult> Approve(int id, CancellationToken cancellationToken = default)
     {
@@ -78,7 +70,6 @@ public class ListingController : ControllerBase
         return Ok(listing);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost("{id:int}/reject")]
     public async Task<IActionResult> Reject(
         int id,
@@ -89,7 +80,6 @@ public class ListingController : ControllerBase
         return Ok(listing);
     }
 
-    [Authorize(Roles = "Vendor,Admin")]
     [HttpPost("{id:int}/archive")]
     public async Task<IActionResult> Archive(int id, CancellationToken cancellationToken = default)
     {
@@ -97,7 +87,6 @@ public class ListingController : ControllerBase
         return Ok(listing);
     }
 
-    [Authorize(Roles = "Vendor,Admin")]
     [HttpPost("{id:int}/restore")]
     public async Task<IActionResult> Restore(int id, CancellationToken cancellationToken = default)
     {

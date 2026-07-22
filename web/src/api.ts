@@ -1,17 +1,10 @@
 const API = "http://localhost:5250/api/v1";
 
-let token: string | null = null;
-
-export function setToken(value: string | null) {
-  token = value;
-}
-
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`${API}${path}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });
@@ -42,17 +35,6 @@ export const api = {
 };
 
 /* ---------- types (mirror of Findly.Contracts) ---------- */
-
-export interface AuthResponse {
-  token: string;
-  expiresAtUtc: string;
-  userId: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: number;
-  vendorId: number | null;
-}
 
 export interface Paged<T> {
   items: T[];

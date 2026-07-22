@@ -4,30 +4,28 @@ using Findly.Application.Listings.Interfaces;
 using Findly.Application.Vendors.Interfaces;
 using Findly.Contracts.Lead.Requests;
 using Findly.Domain.Enums;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Findly.Api.Controllers.V1;
 
-/// <summary>Vendor-facing views over the signed-in vendor's own listings and leads.</summary>
+/// <summary>Vendor-facing views over the local vendor profile's own listings and leads.</summary>
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/vendor-portal")]
-[Authorize(Roles = "Vendor")]
 public class VendorPortalController : ControllerBase
 {
-    private readonly IVendorService  _vendorService;
+    private readonly IVendorService _vendorService;
     private readonly IListingService _listingService;
-    private readonly ILeadService    _leadService;
+    private readonly ILeadService _leadService;
 
     public VendorPortalController(
-        IVendorService  vendorService,
+        IVendorService vendorService,
         IListingService listingService,
-        ILeadService    leadService)
+        ILeadService leadService)
     {
-        _vendorService  = vendorService;
+        _vendorService = vendorService;
         _listingService = listingService;
-        _leadService    = leadService;
+        _leadService = leadService;
     }
 
     [HttpGet("profile")]
@@ -39,7 +37,7 @@ public class VendorPortalController : ControllerBase
 
     [HttpGet("listings")]
     public async Task<IActionResult> GetListings(
-        [FromQuery] int page     = 1,
+        [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
         [FromQuery] ListingStatus? status = null,
         CancellationToken cancellationToken = default)
@@ -50,7 +48,7 @@ public class VendorPortalController : ControllerBase
 
     [HttpGet("leads")]
     public async Task<IActionResult> GetLeads(
-        [FromQuery] int page     = 1,
+        [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10,
         [FromQuery] LeadStatus? status = null,
         CancellationToken cancellationToken = default)

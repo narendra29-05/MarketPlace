@@ -2,7 +2,6 @@ using Asp.Versioning;
 using Findly.Application.Reviews.Interfaces;
 using Findly.Contracts.Common;
 using Findly.Contracts.Review.Requests;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Findly.Api.Controllers.V1;
@@ -18,7 +17,6 @@ public class ReviewController : ControllerBase
         _reviewService = reviewService;
     }
 
-    [Authorize(Roles = "Buyer")]
     [HttpPost("api/v{version:apiVersion}/listings/{listingId:int}/reviews")]
     public async Task<IActionResult> Create(
         int listingId,
@@ -29,7 +27,6 @@ public class ReviewController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = review.Id, version = "1.0" }, review);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpGet("api/v{version:apiVersion}/reviews/{id:int}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
     {
@@ -37,7 +34,6 @@ public class ReviewController : ControllerBase
         return Ok(review);
     }
 
-    [Authorize]
     [HttpPut("api/v{version:apiVersion}/reviews/{id:int}")]
     public async Task<IActionResult> Update(
         int id,
@@ -48,7 +44,6 @@ public class ReviewController : ControllerBase
         return Ok(review);
     }
 
-    [Authorize]
     [HttpDelete("api/v{version:apiVersion}/reviews/{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
     {
@@ -56,7 +51,6 @@ public class ReviewController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost("api/v{version:apiVersion}/reviews/{id:int}/approve")]
     public async Task<IActionResult> Approve(int id, CancellationToken cancellationToken = default)
     {
@@ -64,7 +58,6 @@ public class ReviewController : ControllerBase
         return Ok(review);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost("api/v{version:apiVersion}/reviews/{id:int}/reject")]
     public async Task<IActionResult> Reject(
         int id,

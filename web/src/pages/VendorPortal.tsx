@@ -15,7 +15,7 @@ import {
   type Paged,
   type Vendor,
 } from "../api";
-import { ROLE_ADMIN, ROLE_VENDOR, useAuth } from "../auth";
+import { useAuth } from "../auth";
 import { Field, Pager, StatusPill, statusTone } from "../ui";
 
 /* ---------- onboarding ---------- */
@@ -554,7 +554,6 @@ function LeadsTab() {
 /* ---------- page ---------- */
 
 export default function VendorPortalPage() {
-  const { user, refresh } = useAuth();
   const [tab, setTab] = useState<"profile" | "listings" | "leads">("profile");
   const [vendor, setVendor] = useState<Vendor | null>(null);
   const [missing, setMissing] = useState(false);
@@ -570,26 +569,8 @@ export default function VendorPortalPage() {
   }, []);
 
   useEffect(() => {
-    if (user?.role === ROLE_VENDOR) loadProfile();
-  }, [user?.role, loadProfile]);
-
-  if (!user || (user.role !== ROLE_VENDOR && user.role !== ROLE_ADMIN)) {
-    return (
-      <div className="empty section-gap">
-        The vendor portal is for vendor accounts. <Link to="/signin">Sign in</Link> or{" "}
-        <Link to="/register">register as a vendor</Link> to list your product and manage leads.
-      </div>
-    );
-  }
-
-  if (user.role === ROLE_ADMIN) {
-    return (
-      <div className="empty section-gap">
-        Admins moderate vendors in the <Link to="/admin">admin area</Link> — the portal itself is
-        each vendor's own workspace.
-      </div>
-    );
-  }
+    loadProfile();
+  }, [loadProfile]);
 
   return (
     <>
@@ -605,10 +586,7 @@ export default function VendorPortalPage() {
         <ProfileTab
           vendor={vendor}
           missing={missing}
-          onCreated={() => {
-            loadProfile();
-            refresh().catch(() => {});
-          }}
+          onCreated={loadProfile}
         />
       )}
       {tab === "listings" && <ListingsTab />}
